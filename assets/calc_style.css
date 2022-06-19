@@ -1,0 +1,94 @@
+body {
+    font-size: 2.5vh;
+    top: 15%;
+    left: 40%;
+    margin: 0 auto;
+    background-color: darkgreen;
+    font-family: 'Times New Roman', serif;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+#calculator {
+    width: auto;
+    height: auto;
+    padding: 1.5vh;
+    border: 5px solid #999999;
+    border-radius: 15px;
+    margin: 0;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.box {
+    text-align: right;
+    font-size: 2.8vh;
+    height: 3vh;
+    line-height: 3vh;
+    padding: 1em;
+    border: 2px solid #e68a00;
+    color: white;
+    border-radius: 15px;
+    background-color: black;
+}
+
+#last_operation_history {
+    height: 1.8vh;
+    font-size: 1.8vh;
+    text-align: right;
+    padding-right: 1.5vh;
+    color: rgb(177, 176, 176);
+    background-color: black;
+}
+
+button {
+    width: 9vh;
+    height: 9vh;
+    font-weight: bold;
+    font-size: 3vh;
+    color: white;
+    background-color: #666666;
+    border-radius: 50%;
+    border: 1px solid #333333;
+}
+
+#backspace_btn {
+    background-image: url("../assets/back_remove.png");
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 1.7em;
+}
+
+button.hover {
+    background-color: #999999;
+}
+
+.operator {
+    background-color: #e68a00;
+
+}
+
+.operator:hover {
+    background-color: #ffd11a;
+}
+
+#equal_sign {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #666666;
+    text-align: center;
+}

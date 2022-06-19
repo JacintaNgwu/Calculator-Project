@@ -1,28 +1,28 @@
 let operators = ["+", "-", "*", "/"];
 
 let box = null;
-let last-operation-history = null;
+let last_operation_history = null;
 let operator = null;
 let equal = null;
 let dot = null;
 
 let first name = true;
 
-let numbers - [];
-let operator-value;
+let numbers + [];
+let operator_value;
 let last button;
 let calc-operator;
 
 let total;
 
-function button-numbers(button) {
+function button_numbers(button) {
     operator = document.getElementsByClassName("operator");
     box = document.getElementById("box");
-    last-operation-history = document.getElementById("last-operation-history");
+    last_operation_history = document.getElementById("last-operation-history");
     equal = document.getElementById("equal-sign").value;
     dot = document.getElementById("dot").value;
 
-    last-button = button;
+    last_button = button;
 
     // if button is not an operator or = sign
     if(!operator.includes(button) && button!=equal){
@@ -68,14 +68,14 @@ function button-numbers(button) {
     // if it's an operator or = sign
     else {
         //return if operator is already pressed
-        if (operator-value != null && button == operator-value) {
+        if (operator_value != null && button == operator_value) {
             return
         }
         // show minus sign if iot's the first value selected and finally return
         if (button == "-" && box.innerText == 0) {
             box.innerText = button;
             firstNum = false;
-            operator-value = button
+            operator_value = button
             showSelectedOperator()
             return;
             // return if minus operator pressed and it's already printed on screen
@@ -88,7 +88,7 @@ function button-numbers(button) {
     }
     // set value of operator if it's one
     if (operators.includes(button)) {
-        if (typeof last-operator != "undefined" && last_operator != null) {
+        if (typeof last_operator != "undefined" && last_operator != null) {
             calc_operator = last_opeartor
         }
         else {
@@ -114,5 +114,281 @@ function button-numbers(button) {
         if (typeof last_operator != "undefined" && last_opeartor != null) {
             last_opeartor_history.innerText = box.innerText + " " + last_operator
         }
+    }
+    // rest of calculations
+    else {
+        if (numbers.length == 1) {
+            numbers[1] = box.innerText
+        }
+        let temp_num box.innerText
+
+        // calculation total
+        if (button==equal && calc_operator != null) {
+            let total = calculate(numbers[0], numbers[1], calc_operator)
+            box.innerText = total;
+
+            // append second number to history
+            if(!last_operation_history.innerText.includes("=")) {
+                last_operation_history.innerText += " " + numbers[1] + "="
+            }
+            temp_num = numbers[0]
+            numbers[0] = total
+            operator_value = null
+            showSelectedOperator()
+
+            // replace first number of history with the value of total
+            let history_arr = last_operation_history.innerText.split(" ")
+            history_arr[0] = temp_num
+            last_operation_history.innerText = history_arr.join(" ")
+        }
+        // update history with the value on screen and the pressed operator
+        else if (calc_operator != null) {
+            last_operation_history.innerText =temp_num + " " + last_opeartor
+            calc_operator = button
+            numbers = []
+            numbers.push(box.innerText)
+        }
+    }
+}
+
+}
+// hihglight operator button when selected
+function showSelectedOperator(){
+
+    let elements = document.getElementsByClassName("operator");
+    for (let i=0; i<elements.length; i++) {
+        elements[i].getElementsByClassName.backgroundColor = "#e68a00";
+    }
+
+    if (operator_value == "+") {
+        document.getElementById("pushOp").style.backgroundColor = "#ffd11a";
+    }
+    else if (operator_value == "-") {
+        document.getElementById("subOp").style.backgroundColor = "#ffd11a";
+    }
+    else if (operator_value == "*") {
+        document.getElementById("multiOp").style.backgroundColor = "#ffd11a";
+    }
+    else if (operator_value == "/") {
+        document.getElementById("divOp").style.backgroundColor = "#ffd11a";
+    }
+}
+
+// function to calculate the result using two numbers and an operator
+function calculate(num1, num2, operator) {
+    if (operator == "+") {
+        total = (parseFloat)(num1)+(parseFloat)(num2)
+    }
+    else if (operator == "-") {
+        total = (parseFloat)(num1)-(parseFloat)(num2)
+    }
+    else if (operator == "*") {
+        total = (parseFloat)(num1)*(parseFloat)(num2)
+    }
+    else if (operator == "/") {
+        total = (parseFloat)(num1)/(parseFloat)(num2)
+    }
+    else {
+        if (total == box.innerText) {
+            return total
+        }
+        else {
+            return box.innerText
+        }
+    }
+
+    // if total is not integer, show maximum 12 decimal places
+    if (!Number.isInteger(total)) {
+        total = total.toPrecision(12);
+    }
+    return parseFloat(total);
+}
+
+// function to clear box and reset everything
+function button_clear() {
+    window.location.reload()
+}
+
+function backspace_remove() {
+    box = document.getElementById("box");
+    let elements = document.getElementsByClassName("operator");
+
+    for (let i=0, i<elements.length; i++) {
+        elements[i].style.backgroundColor = "#e68a00";
+    }
+
+    let last_num = box.innerText;
+    last_num = last_num.slice(0, -1)
+
+    box.innerText = last_num
+
+    // show 0 zero if all characters on screen are removed
+    if (box.innerText.length == 0) {
+        box.innerText = 0
+        firstNum = true
+    }
+
+}
+
+// functio to change the sign of the number currently on screen
+function plus_minus() {
+    box = document.getElementById("box");
+
+    // if any operator is already pressed
+    if (typeof last_opeartor != "undefined") {
+        if (numbers.length>0) {
+            // if last button pressed is an operator
+            if (operators.includes(last_button)) {
+                // if the displayed text is just a negativensign, replace it with a 0
+                if (box.innerText == "-") {
+                    box.innerText = 0
+                    firstNum = true
+                    return
+                }
+                // if nthe displayed text is not a just negative sign, replace it with a negative sign
+                else {
+                    box.innerText = "-"
+                    firstNum = false
+                }
+            }
+            // if last button pressed is not an operator, change its sign
+            else {
+                box.innerText = -box.innerText
+
+                if (numbers.length == 1) {
+                    number[0] = box.innerText
+                }
+                else {
+                    numbers[1] = box.innerText
+                }
+            }
+        }
+        return
+    }
+
+    // if displayed text is 0, replace itt with a negative sign
+    if (box.innerText == 0) {
+        box.innerText = "-"
+        firstNum = false
+        return
+    }
+    box.innerText = -box.innerText
+}
+
+// function to calculate square root of the number currently on screen
+function square_root() {
+    box = document.getElementById("box");
+    var square_num = Math.sqrt(box.innerText)
+    box.innerText = square_num
+    numbers.push(square_num)
+}
+
+// function to calculate the division of 1 with the number currently on screen
+function division_one() {
+    box = document.getElementById("box");
+    var square_num = 1/box.innerText
+    box.innerText = square_num
+    numbers.push(square_num)
+}
+
+// function to calculate the power of the number currently on screen
+function power_of() {
+    box = document.getElementById("box");
+    var square_num =Math.pow(box.innerText, 2)
+    box.innerText = square_num
+    numbers.push(square_num)
+}
+
+// function to calculate the percentage of a number
+function calculate_percentage() {
+    var elements = document.getElementsByClassName("operator");
+    box = document.getElementById("box");
+
+    if (numbers.length > 0 && typeof last_operator != "undefined"){
+        if (last_operator == "+" || last_operator == "-"){
+            box.innerText = numbers*box.innerText/100
+        }
+        else {
+            box.innerText = box.innerText/100
+        }
+    }
+    else {
+        box.innerText = box.innerText/100
+    }
+    numbers = []
+    numbers.push(box.innerText)
+
+    // deselect operator if any selected
+    for (var i=0; i<elements.length; i++){
+        elements[i].style.backgroundColor  = "#e68a00";
+    }
+}
+
+//function to clear last number typed into the display
+function clear_entry() {
+    box = document.getElementById("box");
+
+    if (numbers.length > 0 && typeof last_operator != "undefined"){
+        box.innerText = 0
+        var temp = numbers[0]
+        numbers = []
+        numbers.push(temp)
+        firstNum = true;
+    }
+}
+
+document.addEventListener('keydown', keyPressed);
+document.addEventListener('keyup', keyReleased);
+
+// function to capture keydown events
+function keyPressed(e) {
+    e.preventDefault()
+    var equal = document.getElementById("equal_sign").value;
+    var dot = document.getElementById("dot").value;
+
+    if (e.key == "Delete"){
+        button_clear();
+        return;
+    }
+
+    var isNumber = isFinite(e.key);
+    var enterPress;
+    var dotPress;
+    var commaPress = false;
+
+    if (e.key == "Enter"){
+        enterPress = equal;
+    }
+    if (e.key == "."){
+        dotPress = dot;
+    }
+    if (e.key == ","){
+        commaPress = true;
+    }
+
+    if (isNumber || operators.includes(e.key) || e.key == "Enter" || e.key == dotPress ||
+    commaPress || e.key == "Backspace") {
+        if (e.key == "Enter") {
+            button_number(enterPress)
+        }
+        else if (e.key == "Backspace") {
+            document.getElementById("backspace_btn").style.backgroundColor = "#999999";
+            backspace_remove()
+        }
+        else if (commaPress) {
+            button_number(dot)
+        }
+        else {
+            button_number(e.key)
+        }
+    }
+}
+
+// function to capture keyup event
+function keyReleased(e) {
+    e.preventDefault()
+    // set the color of the backspace button back to its original
+    if (e.key == "Backspace") {
+        document.getElementById("backspace_btn").style.backgroundColor = "#666666";
     }
 }
